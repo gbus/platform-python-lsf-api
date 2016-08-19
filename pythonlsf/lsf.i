@@ -250,4 +250,27 @@ PyObject * get_hostgroup_info_by_name(char** name, int num) {
     return result;
 }
 
+
+
+PyObject * get_lsinfo_resource_names() {
+    struct lsInfo *info;
+    struct resItem *res_table;
+    int numres;
+
+
+    info = ls_info();
+    numres = info->nRes;
+    res_table = info->resTable;
+
+    PyObject *result = PyList_New(numres);     // Create PyObject * to get C returns
+    int i;
+    for (i = 0; i < numres; i++) {
+        PyObject *o = PyString_FromString(res_table[i].name);
+        PyList_SetItem(result,i,o);
+    }
+
+    return result;
+}
+
+
 %}
